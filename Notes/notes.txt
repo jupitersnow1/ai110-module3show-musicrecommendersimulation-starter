@@ -1,0 +1,31 @@
+Phase 1: Understanding the problem 
+
+The main data types involved in these systems, eg skips, playlists, tempo, or mood 
+
+How streaming platforms recommend music: 
+1. Collaborative Filtering
+    Uses *other users behavior* to make predictions - "people who liked what liked also liked X"
+
+    * Builds matrix of users x songs with interaction signals (play, skips, saves)
+    * Find users w/ similar taste profiles, then surfaces what those users enjoyed. 
+    * strength: Discovers songs you'd nver find on your own
+    # weakness: Cold start problem - new users/songs have no history
+
+2. Content Based Filtering 
+    Uses *song attributes* to fing musically similar tracks - "this song sounds like what you've been playing"
+
+    * Each song is represented as a vector of features (tempo, key, energy, genre, mood)
+    * Compares feature similarity between songs a user liked and candidate songs
+    * strength: Works immediately for new songs; explainable ("because you like upbeat pop")
+    * weakness: Can get stuch in a "filter bubble" - only recommedns more of the same
+
+How spotify/ youtube does is: Both use a hybrid approach - combining collaborative + content signals, plus: session context(what one is doing right now), temporal pattern(time of day, day of week listening habbits), implicit vs explicit feedback(skip = dislike, replay = strong like, save = explicit like etc)
+
+Main Data Types Involved:
+Data Type      |	Examples                                                    | Signal Type
+____________________________________________________________________________________________________
+User behavior  | plays, skips, replays, saves, playlist adds                    | Implicit/Explicit
+Audio features | tempo (BPM), energy, danceability, valence (mood), loudness	| Content
+Metadata	   | genre, artist, release year, key	                            | Content
+Social signals | shares, follows, concert attendance	                        | Collaborative
+Context        | time of day, device, location	                                | Contextual

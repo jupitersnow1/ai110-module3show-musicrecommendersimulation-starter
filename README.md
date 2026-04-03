@@ -11,23 +11,31 @@ Your goal is to:
 - Evaluate what your system gets right and wrong
 - Reflect on how this mirrors real world AI recommenders
 
-Replace this paragraph with your own summary of what your version does.
+This simulation builds a content-based music recommender that scores songs from a small catalog against a user's taste profile. Given a user's preferred genre, mood, and energy level, it calculates a weighted score for each song and returns the top matches with a brief explanation of why each was chosen.
 
 ---
 
 ## How The System Works
 
-Explain your design in plain language.
+Real-world platforms like Spotify and YouTube don’t just randomly suggest songs — they’re actually combining multiple strategies at once, which I thought was really interesting to dig into. They use collaborative filtering (looking at what similar users are listening to) and content-based filtering (analyzing what the song itself is like). At scale, they’re processing millions of interactions — plays, skips, saves — along with audio features like tempo, energy, and mood to build a pretty detailed picture of both the user and the music.
 
-Some prompts to answer:
+For my version, I focused on the content based side because I wanted to really understand how matching works at a more direct level like, if I say I like chill, low-energy music, how does the system actually find that?
 
-- What features does each `Song` use in your system
-  - For example: genre, mood, energy, tempo
-- What information does your `UserProfile` store
-- How does your `Recommender` compute a score for each song
-- How do you choose which songs to recommend
+**Song features used:**
+- `genre` — broad style category (pop, lofi, rock, jazz, etc)
+- `mood` — emotional tone (happy, chill, grunge, relaxed)
+- `energy` — intensity level from 0.0 (very calm) to 1.0 (very hype)
 
-You can include a simple diagram or bullet list if helpful.
+**UserProfile stores:**
+- Preferred `genre`, `mood`, and `energy` level
+
+**Scoring logic:**
+- Genre and mood matches award a full point (1.0) or nothing (0.0)
+- Energy is scored by closeness: `1.0 - abs(song_energy - user_energy)`
+- Final score = weighted sum: genre (0.40) + mood (0.35) + energy (0.25)
+
+**Ranking:**
+- All songs are scored, sorted highest to lowest, and the top `k` are returned with a brief explanation of why each matched.
 
 ---
 
