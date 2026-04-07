@@ -59,3 +59,21 @@ Swap which one is passed into recommend_songs() to see how results change.
 
 To view the list of songs in our data
     `python -c "from src.recommender import load_songs; songs = load_songs('data/songs.csv'); [print(s['id'], s['title']) for s in songs]"`
+
+---
+
+.sort() vs sorted() — recommend_songs ranking decision
+
+    .sort() — in place, O(1) extra space, same list is modified:
+        scored.sort(key=lambda x: x[1], reverse=True)
+        return scored[:k]
+
+    sorted() — returns a new list, O(n) extra space:
+        return sorted(scored, key=lambda x: x[1], reverse=True)[:k]
+
+    Same time complexity: O(n log n) for both.
+    .sort() wins on space (no extra list created).
+    We chose sorted() anyway because:
+        - scored is a small local variable — the extra memory is negligible
+        - one line instead of two — more readable and Pythonic
+        - does not mutate the original list, which is safer by habit
