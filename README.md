@@ -37,6 +37,14 @@ For my version, I focused on the content based side because I wanted to really u
 **Ranking:**
 - All songs are scored, sorted highest to lowest, and the top `k` are returned with a brief explanation of why each matched.
 
+**Data Flow:**
+![alt text](process_flowchart.png)
+
+**Potential biases to watch for:**
+- Genre gets the highest weight (0.40), so a great mood/energy match in the wrong genre will always rank lower — possibly burying songs the user would actually enjoy
+- Mood matching is binary (match or no match), so "chill" and "relaxed" are treated as completely different even though they're close in feel
+- The catalog is small and skewed — some genres have more songs than others, so certain profiles will always get more options to choose from (planning on adding more variety)
+
 ---
 
 ## Getting Started

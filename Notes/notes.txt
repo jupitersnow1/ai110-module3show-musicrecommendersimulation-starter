@@ -29,3 +29,28 @@ Audio features | tempo (BPM), energy, danceability, valence (mood), loudness	| C
 Metadata	   | genre, artist, release year, key	                            | Content
 Social signals | shares, follows, concert attendance	                        | Collaborative
 Context        | time of day, device, location	                                | Contextual
+
+---
+
+Phase 2 Step 3: Scoring Logic Design
+
+Algorithm recipe — normalized weighted sum (scores stay in [0.0, 1.0]):
+    genre match:      weight 0.40  — exact match = 1.0, no match = 0.0
+    mood match:       weight 0.35  — exact match = 1.0, no match = 0.0
+    energy closeness: weight 0.25  — 1.0 - abs(song_energy - user_energy)
+
+    final score = (0.40 * genre_score) + (0.35 * mood_score) + (0.25 * energy_score)
+
+Design decision: using normalized weights (sum to 1.0) instead of raw points (+2.0, +1.0, etc.)
+so that scores are always comparable across songs and easy to interpret.
+
+---
+
+TODO - Phase 3 Experiments:
+Test multiple user profiles in src/main.py and compare results. Example profiles to try:
+
+    user_prefs_intense_rock   = { "genre": "rock", "mood": "intense", "energy": 0.9, "acousticness": 0.1 }
+    user_prefs_happy_pop      = { "genre": "pop", "mood": "happy", "energy": 0.8, "acousticness": 0.2 }
+    user_prefs_romantic_rnb   = { "genre": "r&b", "mood": "romantic", "energy": 0.6, "acousticness": 0.44 }
+
+Swap which one is passed into recommend_songs() to see how results change.
