@@ -16,23 +16,37 @@ def main() -> None:
     songs = load_songs("data/songs.csv")
     print(f"Loaded songs: {len(songs)}")
 
-    # user taste profile — adjust to test different scenarios
-    user_prefs = {
-        "genre": "lofi",
-        "mood": "chill",
-        "energy": 0.4,
-        "acousticness": 0.75,
+
+    users = {
+        "Jackie (lofi/chill)": {
+            "genre": "lofi",
+            "mood": "chill",
+            "energy": 0.4,
+            "acousticness": 0.75,
+        },
+        "Alex (pop/happy)": {
+            "genre": "pop",
+            "mood": "happy",
+            "energy": 0.8,
+            "acousticness": 0.2,
+        },
+        "Sam (rock/intense)": {
+            "genre": "rock",
+            "mood": "intense",
+            "energy": 0.9,
+            "acousticness": 0.1,
+        },
     }
 
-    recommendations = recommend_songs(user_prefs, songs, k=5)
-
-    print("\n" + "=" * 50)
-    print("  Top Recommendations")
-    print("=" * 50)
-    for i, (song, score, explanation) in enumerate(recommendations, start=1):
-        print(f"\n{i}. {song['title']} by {song['artist']}")
-        print(f"   Score : {score:.2f}")
-        print(f"   Why   : {explanation}")
+    for user_name, user_prefs in users.items():
+        recommendations = recommend_songs(user_prefs, songs, k=3)
+        print("\n" + "=" * 50)
+        print(f"  Recommendations for {user_name}")
+        print("=" * 50)
+        for i, (song, score, explanation) in enumerate(recommendations, start=1):
+            print(f"\n{i}. {song['title']} by {song['artist']}")
+            print(f"   Score : {score:.2f}")
+            print(f"   Why   : {explanation}")
 
 
 if __name__ == "__main__":
