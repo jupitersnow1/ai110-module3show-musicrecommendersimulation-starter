@@ -54,3 +54,8 @@ Test multiple user profiles in src/main.py and compare results. Example profiles
     user_prefs_romantic_rnb   = { "genre": "r&b", "mood": "romantic", "energy": 0.6, "acousticness": 0.44 }
 
 Swap which one is passed into recommend_songs() to see how results change.
+
+---
+
+To view the list of songs in our data
+    `python -c "from src.recommender import load_songs; songs = load_songs('data/songs.csv'); [print(s['id'], s['title']) for s in songs]"`
