@@ -38,7 +38,20 @@ For my version, I focused on the content based side because I wanted to really u
 - All songs are scored, sorted highest to lowest, and the top `k` are returned with a brief explanation of why each matched.
 
 **Data Flow:**
-![alt text](process_flowchart.png)
+![alt text](images/process_flowchart.png)
+
+**Sample Output:**
+
+The first version tested a single pop/happy user to verify the scoring logic was working correctly.
+
+![Initial CLI output — single user (pop/happy)](images/initial_cli_recommendation_list.png)
+*Initial run: single user (pop/happy) to verify scoring logic*
+
+
+After confirming the results made sense, I expanded the script to run recommendations for three users with different taste profiles — lofi/chill, pop/happy, and rock/intense — to see how the system behaves across different preferences.
+
+![Updated CLI output — multiple users](images/updated_cli_recommendation_list.png)
+*Updated run: three users with different taste profiles*
 
 **Potential biases to watch for:**
 - Genre gets the highest weight (0.40), so a great mood/energy match in the wrong genre will always rank lower — possibly burying songs the user would actually enjoy
