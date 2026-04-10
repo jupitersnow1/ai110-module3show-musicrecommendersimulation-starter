@@ -18,6 +18,7 @@ def main() -> None:
 
 
     users = {
+        # --- core profiles ---
         "Jackie (lofi/chill)": {
             "genre": "lofi",
             "mood": "chill",
@@ -36,10 +37,29 @@ def main() -> None:
             "energy": 0.9,
             "acousticness": 0.1,
         },
+        # --- edge case profiles ---
+        "Jordan (conflicting: high-energy + sad)": {
+            "genre": "folk",
+            "mood": "sad",
+            "energy": 0.9,
+            "acousticness": 0.8,
+        },
+        "Riley (genre with no catalog match)": {
+            "genre": "reggae",
+            "mood": "happy",
+            "energy": 0.6,
+            "acousticness": 0.5,
+        },
+        "Payton (perfectly average everything)": {
+            "genre": "indie pop",
+            "mood": "moody",
+            "energy": 0.5,
+            "acousticness": 0.5,
+        },
     }
 
     for user_name, user_prefs in users.items():
-        recommendations = recommend_songs(user_prefs, songs, k=3)
+        recommendations = recommend_songs(user_prefs, songs, k=5)
         print("\n" + "=" * 50)
         print(f"  Recommendations for {user_name}")
         print("=" * 50)

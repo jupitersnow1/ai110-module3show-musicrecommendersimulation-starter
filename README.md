@@ -97,11 +97,33 @@ You can add more tests in `tests/test_recommender.py`.
 
 ## Experiments You Tried
 
-Use this section to document the experiments you ran. For example:
+### Phase 4 — Stress Testing with Diverse Profiles
 
-- What happened when you changed the weight on genre from 2.0 to 0.5
-- What happened when you added tempo or valence to the score
-- How did your system behave for different types of users
+I ran the recommender against six profiles — three core and three edge cases to see where the scoring logic held up and where it broke down.
+
+**Core profiles** (Jackie, Alex, Sam) all performed well, hitting scores of 0.99–1.00 with genre, mood, and energy all aligning cleanly.
+![core cases output](images/core_cases.png)
+*Jackie, Alex, Sam: core cases*
+
+**Edge case profiles and what they revealed:**
+
+**Jordan (conflicting: high-energy + sad, folk)**
+This one was interesting — Jordan wants sad folk music but at a really high energy level (0.9), which is kind of an unusual combo. The system got the top pick right (*Rainy Window*, genre + mood match), but #2 and #3 were pure energy matches like *Storm Runner* and *Gym Hero*, which are completely off for someone in a sad mood. The problem is the system scores each feature on its own and doesn't consider whether they make sense together. One fix I'd want to try is treating mood as a hard filter — so songs that don't match the mood at all just get ruled out before ranking, no matter how well the energy lines up. Adding more sad high-energy songs to the catalog would also help give the system better options.
+
+![Jordan edge case output](images/jordan_edge_case.png)
+*Jordan: conflicting high-energy + sad profile*
+
+**Riley (genre with no catalog match — reggae)**
+Since there are no reggae songs in the catalog, every song started with 0 genre points and scores topped out around 0.56. The system still returned something, but the results felt weak and unconfident. It really highlights that genre is basically a scoring ceiling — if your genre isn't represented, you're at a disadvantage from the start. The clearest fix is just expanding the catalog with more variety. A longer-term idea would be to group similar genres together as a fallback (eg. reggae → world music) so the system can still find something reasonable when there's no exact match.
+
+![Riley edge case output](images/riley_edge_case.png)
+*Riley: reggae genre with zero catalog matches*
+
+**Payton (perfectly average — indie pop/moody/energy 0.5)**
+Even with a totally mid-range profile, Linh still got a 0.99 match because *Late Night Overthinking* happened to align on all three features at similar values. So "average" doesn't mean bad results — it just depends on what's in the catalog. This one showed me that catalog coverage matters just as much as how the weights are set up.
+
+![Payton edge case output](images/payton_edge_case.png)
+*Payton: perfectly average profile across all features*
 
 ---
 
