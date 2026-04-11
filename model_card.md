@@ -1,61 +1,32 @@
 # 🎧 Model Card: Music Recommender Simulation
 
-## 1. Model Name  
+## 1. Model Name
 
-Give your model a short, descriptive name.  
-Example: **VibeFinder 1.0**  
-
----
-
-## 2. Intended Use  
-
-Describe what your recommender is designed to do and who it is for. 
-
-Prompts:  
-
-- What kind of recommendations does it generate  
-- What assumptions does it make about the user  
-- Is this for real users or classroom exploration  
+**VibeMatcher 1.0**
 
 ---
 
-## 3. How the Model Works  
+## 2. Intended Use
 
-Explain your scoring approach in simple language.  
-
-Prompts:  
-
-- What features of each song are used (genre, energy, mood, etc.)  
-- What user preferences are considered  
-- How does the model turn those into a score  
-- What changes did you make from the starter logic  
-
-Avoid code here. Pretend you are explaining the idea to a friend who does not program.
+This recommender suggests songs from a small catalog based on a user's preferred genre, mood, and energy level. It is built for classroom exploration — not for real users or production use. It assumes the user can describe their taste with a few simple preferences.
 
 ---
 
-## 4. Data  
+## 3. How the Model Works
 
-Describe the dataset the model uses.  
-
-Prompts:  
-
-- How many songs are in the catalog  
-- What genres or moods are represented  
-- Did you add or remove data  
-- Are there parts of musical taste missing in the dataset  
+The system compares a user's preferences to each song in the catalog and gives it a score. Genre and mood either match or they don't — a match adds points, no match adds nothing. Energy is scored by closeness — the nearer a song's energy is to what the user wants, the more points it gets. The final score is a weighted sum: genre counts the most (0.40), then mood (0.35), then energy (0.25). Songs are ranked by score and the top results are returned with a short explanation.
 
 ---
 
-## 5. Strengths  
+## 4. Data
 
-Where does your system seem to work well  
+The catalog has 18 songs. Genres include pop, lofi, rock, jazz, synthwave, ambient, indie pop, r&b, hip hop, classical, country, metal, and folk. Moods include happy, chill, intense, relaxed, focused, moody, romantic, and sad. I expanded the original 10-song dataset to add more variety. Some genres still only have one song, so certain user profiles get fewer good options than others.
 
-Prompts:  
+---
 
-- User types for which it gives reasonable results  
-- Any patterns you think your scoring captures correctly  
-- Cases where the recommendations matched your intuition  
+## 5. Strengths
+
+The system works well when the user's preferences match what's in the catalog. Profiles like lofi/chill, pop/happy, and rock/intense all got strong, intuitive results. The scoring logic is transparent — every recommendation comes with a plain-language explanation of why it matched. It's easy to understand and easy to adjust.
 
 ---
 
@@ -65,7 +36,7 @@ The biggest limitation I found is that the system scores each feature independen
 
 Genre is also a hard ceiling. If a user's preferred genre doesn't exist in the catalog — like reggae — the maximum possible score drops to 0.60 regardless of how well everything else matches. This means some users are structurally disadvantaged just because of what's in the dataset, not because of anything they did wrong.
 
-Mood matching is binary — a song either matches or it doesn't. There's no sense of "closeness" between moods, so "chill" and "relaxed" are treated as completely different even though most people would consider them similar. This creates some unintuitive gaps in the rankings.
+Mood matching is binary — a song either matches or it doesn't. There's no sense of "closeness" between moods, so "chill" and "relaxed" are treated as completly different even though most people would consider them similar. This creates some unintuitive gaps in the rankings.
 
 Finally, the catalog is small and unevenly distributed. Some genres have two or three songs, others only one. Users whose taste aligns with well-represented genres (like lofi or pop) get much better results than users whose taste falls outside what's covered. The system doesn't account for this imbalance at all.
 
@@ -85,25 +56,24 @@ I also ran a weight shift experiment — doubling energy to 0.50 and halving gen
 
 ---
 
-## 8. Future Work  
+## 8. Intended Use and Non-Intended Use
 
-Ideas for how you would improve the model next.  
+**Intended use:** Classroom exploration of how content-based recommenders work. Good for testing scoring logic with small datasets and simple user profiles.
 
-Prompts:  
-
-- Additional features or preferences  
-- Better ways to explain recommendations  
-- Improving diversity among the top results  
-- Handling more complex user tastes  
+**Not intended for:** Real music platforms, production use, or users who expect personalized results based on listening history. It does not learn over time and does not use any real user data.
 
 ---
 
-## 9. Personal Reflection  
+## 9. Ideas for Improvement
 
-A few sentences about your experience.  
+- Treat mood as a hard filter so songs with a completely different mood are excluded before ranking — this would fix the Jordan edge case
+- Add genre groupings as a fallback (eg. reggae → world music) so users whose genre isn't in the catalog still get reasonable results
+- Expand the catalog significantly and balance genres so every user type has enough options to choose from
 
-Prompts:  
+---
 
-- What you learned about recommender systems  
-- Something unexpected or interesting you discovered  
-- How this changed the way you think about music recommendation apps  
+## 10. Personal Reflection
+
+The biggest surprise was the edge cases. I expected the system to struggle with missing genres, but I didn't expect it to return intense rock songs for someone who wanted sad folk music. Technically the math was right — those songs matched on energy — but for a real listener it would have felt completely off. That gap between "mathematically correct" and "actually useful" was the most interesting thing I discovered.
+
+The other moment that stuck with me was Riley's reggae profile. The system still returned results with seemingly confident scores, even though it had no reggae songs at all. It didn't say "I don't know" — it just gave seemingly poir choices. That made me think differently about how real recommendation systems might fail without users ever realizing it. If the data doesn't include your taste, the system doesn't tell you — it just recommends the closest thing it has.

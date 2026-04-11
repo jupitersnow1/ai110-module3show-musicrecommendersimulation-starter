@@ -14,3 +14,6 @@ id,title,artist,genre,mood,energy,tempo_bpm,valence,danceability,acousticness
 13,Rainy Window,June Hollow,folk,sad,0.31,75,0.35,0.44,0.91
 14,Late Night Overthinking,Drift Signal,indie pop,moody,0.53,100,0.38,0.61,0.47
 15,Pressure Drop,Bassline Cult,r&b,intense,0.80,112,0.60,0.83,0.09
+16,Cough Syrup,Young the Giant,indie rock,sad,0.55,120,0.30,0.52,0.38
+17,Hawaiian Blacksand,The Black Skirts,indie pop,romantic,0.43,88,0.62,0.51,0.67
+18,I Love You So,The Walters,indie pop,romantic,0.32,95,0.72,0.48,0.83

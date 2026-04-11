@@ -129,15 +129,11 @@ Even with a totally mid-range profile, Linh still got a 0.99 match because *Late
 
 ## Limitations and Risks
 
-Summarize some limitations of your recommender.
-
-Examples:
-
-- It only works on a tiny catalog
-- It does not understand lyrics or language
-- It might over favor one genre or mood
-
-You will go deeper on this in your model card.
+- The catalog is small (18 songs) — users with niche tastes get fewer good matches
+- Genre matching is a hard ceiling — if your genre isn't in the catalog, your max score drops to ~0.60
+- Mood matching is binary — "chill" and "relaxed" are treated as completely different even though they're similar
+- Features are scored independently — conflicting preferences (like sad mood + high energy) still return results that feel wrong
+- The system doesn't say "I don't know" — it always returns something, even when the matches are weak
 
 ---
 
