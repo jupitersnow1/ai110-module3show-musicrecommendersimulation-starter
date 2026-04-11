@@ -61,29 +61,27 @@ Prompts:
 
 ## 6. Limitations and Bias 
 
-Where the system struggles or behaves unfairly. 
+The biggest limitation I found is that the system scores each feature independently — it has no way to tell whether a combination of preferences actually makes sense together. For example, when I tested a "sad folk, high energy" profile, the top pick was correct, but the next results were intense rock and pop songs that matched on energy alone. A real listener in a sad mood would never want those, but the system had no way to filter them out.
 
-Prompts:  
+Genre is also a hard ceiling. If a user's preferred genre doesn't exist in the catalog — like reggae — the maximum possible score drops to 0.60 regardless of how well everything else matches. This means some users are structurally disadvantaged just because of what's in the dataset, not because of anything they did wrong.
 
-- Features it does not consider  
-- Genres or moods that are underrepresented  
-- Cases where the system overfits to one preference  
-- Ways the scoring might unintentionally favor some users  
+Mood matching is binary — a song either matches or it doesn't. There's no sense of "closeness" between moods, so "chill" and "relaxed" are treated as completely different even though most people would consider them similar. This creates some unintuitive gaps in the rankings.
+
+Finally, the catalog is small and unevenly distributed. Some genres have two or three songs, others only one. Users whose taste aligns with well-represented genres (like lofi or pop) get much better results than users whose taste falls outside what's covered. The system doesn't account for this imbalance at all.
 
 ---
 
 ## 7. Evaluation  
 
-How you checked whether the recommender behaved as expected. 
+I tested six user profiles — three core and three edge cases — by running the recommender and checking whether the top results matched what a real listener with those preferences would actually want.
 
-Prompts:  
+**Core profiles (Jackie, Alex, Sam)** all performed well. Jackie's lofi/chill profile surfaced *Midnight Coding* and *Library Rain* as the top two, which felt right. Alex's pop/happy profile gave *Sunrise City* a perfect 1.00 score, which made sense since it matched on all three features. Sam's rock/intense profile correctly ranked *Storm Runner* first.
 
-- Which user profiles you tested  
-- What you looked for in the recommendations  
-- What surprised you  
-- Any simple tests or comparisons you ran  
+**Edge cases revealed the real weaknesses.** Jordan's conflicting profile (sad folk, high energy 0.9) got the right top pick, but songs #2 and #3 were intense rock tracks that had nothing to do with a sad mood — they just happened to match on energy. That was the most surprising result because it showed the system doesn't understand that some combinations of preferences conflict with each other.
 
-No need for numeric metrics unless you created some.
+Riley's reggae profile was another eye-opener. With no reggae in the catalog, every song started at zero for genre, and the highest score anyone could reach was around 0.56. The system still returned results, but they didn't feel meaningful — it was basically guessing based on mood and energy alone.
+
+I also ran a weight shift experiment — doubling energy to 0.50 and halving genre to 0.20 — to see if the balance of features changed the results. It improved some cases (Riley got slightly better picks) but made Jordan worse. That experiment confirmed that the original weights (genre 0.40, mood 0.35, energy 0.25) were the better choice.
 
 ---
 
